@@ -4,16 +4,16 @@ import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Robot;
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
 import java.util.function.Consumer;
-
+import java.awt.Canvas;
 import javafx.scene.control.Alert;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
-class Sprite extends JPanel {
+class Sprite extends Canvas {
     public BufferedImage buffer, temp;
     private Graphics gPixel;
 

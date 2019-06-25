@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,9 +19,10 @@ import java.util.function.Consumer;
 
 import javafx.scene.control.Alert;
 
-class Scene extends Canvas implements KeyListener, Runnable {
+class Scene extends GameCanvas implements KeyListener, Runnable {
     final int WIDTH = 64;
     final int HEIGHT = 64;
+    long gameTime = 0;
     final String UP = "UP";
     final String DOWN = "DOWN";
     final String LEFT = "LEFT";
@@ -29,7 +30,7 @@ class Scene extends Canvas implements KeyListener, Runnable {
     Thread game;
     Player player;
     Charizard zard;
-    JFrame frame;
+    Frame frame;
     int playerPosX = 10;
     int playerPosY = 10;
     int charizardPosX = 14;
@@ -54,7 +55,7 @@ class Scene extends Canvas implements KeyListener, Runnable {
         { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
       };
 
-    Scene(JFrame frame) {
+    Scene(Frame frame) {
         super(frame);
         this.frame = frame;
         addKeyListener(this);
@@ -104,10 +105,29 @@ class Scene extends Canvas implements KeyListener, Runnable {
 
     @Override
     public void run() {
-        render();
-    }
+        long lastLoopTime = System.nanoTime();
+        final int TARGET_FPS = 60;
+        final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+        long lastFpsTime = 0;
+        while(true){
+            long now = System.nanoTime();
+            long updateLength = now - lastLoopTime;
+            lastLoopTime = now;
+            double delta = updateLength / ((double)OPTIMAL_TIME);
 
-    
+            lastFpsTime += updateLength;
+            if(lastFpsTime >= 1000000000){
+                lastFpsTime = 0;
+            }
+            render();
+            try{
+                this.gameTime = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000;
+                System.out.println(this.gameTime);
+                Thread.sleep(this.gameTime);
+            }catch(Exception e){
+            }
+        }
+    }
 
     void render() {
         this.game = new Thread () {

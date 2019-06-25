@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
+import java.awt.Frame;
 import javax.swing.JLabel;
 import java.util.function.Consumer;
 
@@ -49,12 +49,12 @@ class Bush extends Sprite {
         this.y = y;
     }
 
-    void paint(Canvas canvas) {
+    void paint(GameCanvas gameCanvas) {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
-                if(canvas.temp.getRGB(this.x + j, this.y + i) == -16777216) {
+                if(gameCanvas.temp.getRGB(this.x + j, this.y + i) == -16777216) {
                     int tileValue = this.map[i][j];
-                    canvas.putPixel2(this.x + j, this.y + i, this.colors[tileValue]);
+                    gameCanvas.putPixel2(this.x + j, this.y + i, this.colors[tileValue]);
                 }
             }
         }

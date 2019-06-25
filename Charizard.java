@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.util.function.Consumer;
 
@@ -14,7 +13,7 @@ class  Charizard extends Sprite  {
     final int HEIGHT = 27;
     int x, y;
     Thread mainThread;
-    Canvas canvas;
+    GameCanvas gameCanvas;
     final String SPRITE_1 = "SPRITE_1";
     final String SPRITE_2 = "SPRITE_2";
     final String SPRITE_3 = "SPRITE_3";
@@ -142,8 +141,8 @@ class  Charizard extends Sprite  {
       
     //   }
 
-     Charizard(int x, int y, Canvas canvas) {
-        this.canvas = canvas;
+     Charizard(int x, int y, GameCanvas gameCanvas) {
+        this.gameCanvas = gameCanvas;
         this.x = x;
         this.y = y;
         // mainThread = new Thread(this);
@@ -172,8 +171,8 @@ class  Charizard extends Sprite  {
             for (int j = 0; j < WIDTH; j++) {
                 int tileValue = this.currentSprite[i][j];
                 if (tileValue != 0) {
-                    Color n = new Color(canvas.temp.getRGB(x + j, y + i));
-                    canvas.putPixelPokemon(x + j, y + i, n);
+                    Color n = new Color(gameCanvas.temp.getRGB(x + j, y + i));
+                    gameCanvas.putPixelPokemon(x + j, y + i, n);
                 }
             }
         }
@@ -186,10 +185,10 @@ class  Charizard extends Sprite  {
             for (int j = 0; j < WIDTH; j++) {
                 int tileValue = currentSprite[i][j];
                 if (tileValue != 0) {
-                    canvas.putPixelPokemon(this.x + j, this.y + i, this.colors[tileValue]);
+                    gameCanvas.putPixelPokemon(this.x + j, this.y + i, this.colors[tileValue]);
                 } else {
-                    Color n = new Color(canvas.temp.getRGB(this.x + j, this.y + i));
-                    canvas.putPixelPokemon(this.x + j, this.y + i, n);
+                    Color n = new Color(gameCanvas.temp.getRGB(this.x + j, this.y + i));
+                    gameCanvas.putPixelPokemon(this.x + j, this.y + i, n);
                 }
             }
         }

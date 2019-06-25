@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
 import java.util.function.Consumer;
 
@@ -13,6 +13,7 @@ class Tree extends Sprite {
     final int WIDTH = 32;
     final int HEIGHT = 48;
     int x, y;
+    private BufferedImage dbg = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);; 
 
     Color[] colors = {
         Color.decode("#70c8a0"),
@@ -84,15 +85,18 @@ class Tree extends Sprite {
         this.y = y;
     }
 
-    void paint(Canvas canvas) {
+    void paint(GameCanvas gameCanvas) {
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 int tileValue = this.map[i][j];
                 if (tileValue != 0) {
-                    canvas.putPixel2(this.x + j, this.y + i, this.colors[tileValue]);
+                    dbg.setRGB(j, i, this.colors[tileValue].getRGB());
+                    // gameCanvas.putPixel2(this.x + j, this.y + i, this.colors[tileValue]);
                 }
             }
         }
+        gameCanvas.renderSprite(dbg, this.x, this.y);
+        // gameCanvas.getGraphics().drawImage(dbg, this.x, this.y, gameCanvas);
     }
 }
 

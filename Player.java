@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
 import java.util.function.Consumer;
 
@@ -28,7 +28,7 @@ class Player extends Sprite {
     String direction = DOWN;
     String lastDirection = DOWN;
     int x, y;
-    Canvas canvas;
+    GameCanvas gameCanvas;
     Color[] colors = {
         Color.decode("#ffffff"),
         Color.decode("#384878"),
@@ -339,10 +339,10 @@ int[][] up_2 = {
 
     int[][] currentSprite = down;
     
-    Player(int x, int y, Canvas canvas) {
+    Player(int x, int y, GameCanvas gameCanvas) {
         this.x = x;
         this.y = y;
-        this.canvas = canvas;
+        this.gameCanvas = gameCanvas;
     }
 
     void setPos(int x, int y, String dir) {
@@ -358,8 +358,8 @@ int[][] up_2 = {
             for (int j = 0; j < WIDTH; j++) {
                 int tileValue = this.currentSprite[i][j];
                 if (tileValue != 0) {
-                    Color n = new Color(canvas.temp.getRGB(x + j, y + i));
-                    canvas.putPixel3(x + j, y + i, n);
+                    Color n = new Color(gameCanvas.temp.getRGB(x + j, y + i));
+                    gameCanvas.putPixel3(x + j, y + i, n);
                 }
             }
         }
@@ -371,7 +371,7 @@ int[][] up_2 = {
             for (int j = 0; j < WIDTH; j++) {
                 int tileValue = currentSprite[i][j];
                 if (tileValue != 0) {
-                    canvas.putPixel3(this.x + j, this.y + i, this.colors[tileValue]);
+                    gameCanvas.putPixel3(this.x + j, this.y + i, this.colors[tileValue]);
                 }
             }
         }
